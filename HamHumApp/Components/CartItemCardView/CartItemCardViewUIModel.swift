@@ -11,5 +11,5 @@ struct CartItemCardViewUIModel {
     var image: String?
     var name: String
     var count: Int
-    var singlePrice: Int?
+    var singlePrice: Double
 }

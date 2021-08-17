@@ -11,29 +11,26 @@ class CartItemCardView: UIView {
     
     private let imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "cart-image")
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
     private let labelName: UILabel = {
         let label = UILabel()
-        label.text = "Hot Dog"
         label.textColor = Color.neutrals.greySix
-        label.font = UIFont(name: "CenturyGothic-Bold", size: 20)
+        label.font = UIFont(name: Font.CenturyGothic.bold, size: 20)
         return label
     }()
     
-    private let stepper: StandardStepper = {
-        let stepper = StandardStepper()
+    private let stepper: ExcellentStepper = {
+        let stepper = ExcellentStepper()
         return stepper
     }()
     
     private let labelPrice: UILabel = {
         let label = UILabel()
-        label.text = "$8.99"
         label.textColor = Color.primary.red
-        label.font = UIFont(name: "CenturyGothic-Bold", size: 25)
+        label.font = UIFont(name: Font.CenturyGothic.bold, size: 20)
         return label
     }()
     
@@ -77,14 +74,18 @@ class CartItemCardView: UIView {
     private func setupUI(){
         backgroundColor = .white
         layer.cornerRadius = 15
-        layer.shadowOffset = CGSize(width: 0, height: 2)
+        layer.shadowOffset = CGSize(width: 0, height: 0)
         layer.shadowColor = UIColor.darkText.cgColor.copy(alpha: 0.5)
-        layer.shadowOpacity = 0.2
+        layer.shadowOpacity = 0.3
         layer.shadowRadius = 4
     }
     
     func configure(with model: CartItemCardViewUIModel){
-        
+        if let image = model.image {
+            imageView.image = UIImage(named: image)
+        }
+        labelName.text = model.name
+        labelPrice.text = "$\(model.singlePrice)"
     }
     
     private func layout(){

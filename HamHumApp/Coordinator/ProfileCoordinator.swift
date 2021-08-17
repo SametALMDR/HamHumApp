@@ -1,27 +1,24 @@
 //
-//  CartCoordinator.swift
+//  ProfileCoordinator.swift
 //  HamHumApp
 //
-//  Created by ALEMDAR on 14.08.2021.
+//  Created by ALEMDAR on 17.08.2021.
 //
 
 import UIKit
 
-class CartCoordinator: Coordinator {
+class ProfileCoordinator: Coordinator {
     var navigationController: UINavigationController = UINavigationController()
     
     func start() {
         
-        let cartViewController = CartViewController()
-        navigationController = UINavigationController(rootViewController: cartViewController)
+        let profileViewController = ProfileViewController()
+        navigationController = UINavigationController(rootViewController: profileViewController)
         
-        cartViewController.navigationItem.title = "Cart Food"
-        let tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "cart-tab-icon"), tag: 100)
-        tabBarItem.imageInsets = UIEdgeInsets(top: -25, left: 0, bottom: 25, right: 0)
-        navigationController.tabBarItem = tabBarItem
+        profileViewController.navigationItem.title = "Profile"
+        navigationController.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "profile-tab-icon"), tag: 100)
         
         setupUI()
-
     }
     
     private func setupUI(){

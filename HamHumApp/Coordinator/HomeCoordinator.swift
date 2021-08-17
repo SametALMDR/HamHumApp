@@ -17,6 +17,6 @@ class HomeCoordinator: Coordinator {
         
 //        homeViewController.navigationItem.title = "nav"
         navigationController.navigationBar.isHidden = true
-        navigationController.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "homeicon"), tag: 100)
+        navigationController.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "home-tab-icon"), tag: 100)
     }
 }

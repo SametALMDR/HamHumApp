@@ -19,21 +19,28 @@ class MainTabBarController: UITabBarController {
     }
     
     let homeCoordinator = HomeCoordinator()
+    let searchCoordinator = SearchCoordinator()
     let cartCoordinator = CartCoordinator()
-    let favoriteCoordinator = FavoriteCoordinator()
+    let orderCoordinator = OrderCoordinator()
+    let profileCoordinaor = ProfileCoordinator()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        homeCoordinator.start()
-        cartCoordinator.start()
-        favoriteCoordinator.start()
         setupUI()
+        
+        homeCoordinator.start()
+        searchCoordinator.start()
+        cartCoordinator.start()
+        orderCoordinator.start()
+        profileCoordinaor.start()
         
         viewControllers = [
             homeCoordinator.navigationController,
+            searchCoordinator.navigationController,
             cartCoordinator.navigationController,
-            favoriteCoordinator.navigationController
+            orderCoordinator.navigationController,
+            profileCoordinaor.navigationController
         ]
         
     }

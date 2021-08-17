@@ -11,7 +11,7 @@ class MenuIconView: UIView {
     
     private let imageViewIcon: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "menu_icon")
+        imageView.image = UIImage(named: "abuse-icon")?.setColor(color: .white)
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
@@ -32,11 +32,11 @@ class MenuIconView: UIView {
     }
     
     private func setupUI(){
-        backgroundColor = .white
+        backgroundColor = Color.primary.red
         layer.cornerRadius = 8
         layer.shadowOffset = CGSize(width: 0, height: 2)
         layer.shadowColor = UIColor.darkText.cgColor.copy(alpha: 0.5)
-        layer.shadowOpacity = 0.2
+        layer.shadowOpacity = 0.5
         layer.shadowRadius = 4
     }
     
@@ -49,6 +49,8 @@ class MenuIconView: UIView {
         addSubview(imageViewIcon)
         imageViewIcon.snp.makeConstraints { (make) in
             make.center.equalToSuperview()
+            make.width.equalTo(30)
+            make.height.equalTo(30)
         }
     }
     

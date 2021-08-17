@@ -7,21 +7,21 @@
 
 import UIKit
 
-class StandardStepper: UIView {
+class ExcellentStepper: UIView {
     
     //MARK: - Views
     private let stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
-        stackView.spacing = 2
+        stackView.spacing = 7
         return stackView
     }()
     
     private let imageViewDecrease: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(named: "stepper-decrease")
+        imageView.image = UIImage(named: "stepper-minus")
         imageView.isUserInteractionEnabled = true
         return imageView
     }()
@@ -30,14 +30,15 @@ class StandardStepper: UIView {
         let textField = UITextField()
         textField.textAlignment = .center
         textField.isUserInteractionEnabled = false
-        textField.font = UIFont(name: Font.CenturyGothic.bold, size: 20)
+        textField.textColor = .white
+        textField.font = UIFont(name: Font.CenturyGothic.bold, size: 18)
         return textField
     }()
     
     private let imageViewIncrease: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(named: "stepper-increase")
+        imageView.image = UIImage(named: "stepper-plus")
         imageView.isUserInteractionEnabled = true
         return imageView
     }()
@@ -81,7 +82,8 @@ class StandardStepper: UIView {
     }
     
     private func setupUI(){
-        
+        backgroundColor = Color.primary.red
+        layer.cornerRadius = 25/2
     }
     
     func configure(with model: StandardStepperUIModel) {
@@ -115,13 +117,15 @@ class StandardStepper: UIView {
     private func layout(){
        
         snp.makeConstraints { (make) in
-            make.height.equalTo(30)
+            make.height.equalTo(25)
         }
         
         addSubview(stackView)
         
         stackView.snp.makeConstraints { (make) in
-            make.top.leading.bottom.trailing.equalToSuperview()
+            make.top.bottom.equalToSuperview()
+            make.leading.equalToSuperview().offset(10)
+            make.trailing.equalToSuperview().offset(-10)
         }
         stackView.addArrangedSubview(imageViewDecrease)
         stackView.addArrangedSubview(textField)

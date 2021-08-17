@@ -10,6 +10,16 @@
 		2DDF6A8022768F3B558CD7A2 /* Pods_HamHumApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E91DA084B9D70A4254820E6 /* Pods_HamHumApp.framework */; };
 		361CBCA88A92436E1EE73C35 /* Pods_HamHumApp_HamHumAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA335B7A71B47C39D5DC25C7 /* Pods_HamHumApp_HamHumAppUITests.framework */; };
 		F1BDE9DAE3FD1C024AFE1E25 /* Pods_HamHumAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72D11D61819960D5297BF472 /* Pods_HamHumAppTests.framework */; };
+		FA1308CC26CAE50C00E2CFF7 /* CartTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1308CB26CAE50C00E2CFF7 /* CartTableViewCell.swift */; };
+		FA1308D526CB119700E2CFF7 /* ExcellentStepper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1308D426CB119700E2CFF7 /* ExcellentStepper.swift */; };
+		FA1308DA26CB11AA00E2CFF7 /* ExcellentStepperUIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1308D926CB11AA00E2CFF7 /* ExcellentStepperUIModel.swift */; };
+		FA1308E026CB198900E2CFF7 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1308DF26CB198900E2CFF7 /* ProfileViewController.swift */; };
+		FA1308E826CB1DFC00E2CFF7 /* SearchCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1308E726CB1DFC00E2CFF7 /* SearchCoordinator.swift */; };
+		FA1308EE26CB1E4400E2CFF7 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1308ED26CB1E4400E2CFF7 /* SearchViewController.swift */; };
+		FA1308F626CB1F5800E2CFF7 /* ProfileCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1308F526CB1F5800E2CFF7 /* ProfileCoordinator.swift */; };
+		FA1308FF26CB2A1000E2CFF7 /* ListItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA1308FE26CB2A1000E2CFF7 /* ListItemView.swift */; };
+		FA13090426CB2A1C00E2CFF7 /* ListItemViewUIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA13090326CB2A1C00E2CFF7 /* ListItemViewUIModel.swift */; };
+		FA13090A26CB3F4500E2CFF7 /* OrderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA13090926CB3F4500E2CFF7 /* OrderViewController.swift */; };
 		FA25DEEA26C3EE190053BC0F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA25DEE926C3EE190053BC0F /* LoginViewController.swift */; };
 		FA4A934426C9C37600A64029 /* StandardButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4A934326C9C37600A64029 /* StandardButton.swift */; };
 		FA4A934926C9C55600A64029 /* StandardButtonUIModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA4A934826C9C55600A64029 /* StandardButtonUIModel.swift */; };
@@ -23,7 +33,7 @@
 		FA72EDBB26C7C378006FF80C /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA72EDBA26C7C378006FF80C /* MainTabBarController.swift */; };
 		FA72EDC726C7C6A6006FF80C /* CartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA72EDC626C7C6A6006FF80C /* CartViewController.swift */; };
 		FA72EDCC26C7C6E0006FF80C /* CartCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA72EDCB26C7C6E0006FF80C /* CartCoordinator.swift */; };
-		FA72EDD126C7DFA4006FF80C /* FavoriteCoordiantor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA72EDD026C7DFA4006FF80C /* FavoriteCoordiantor.swift */; };
+		FA72EDD126C7DFA4006FF80C /* OrderCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA72EDD026C7DFA4006FF80C /* OrderCoordinator.swift */; };
 		FA72EDD726C7DFF1006FF80C /* FavoritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA72EDD626C7DFF1006FF80C /* FavoritesViewController.swift */; };
 		FA72EE5D26C84240006FF80C /* MainTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA72EE5C26C84240006FF80C /* MainTabBar.swift */; };
 		FA72EE6226C8604A006FF80C /* FoodSmallCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA72EE6126C8604A006FF80C /* FoodSmallCardView.swift */; };
@@ -89,6 +99,16 @@
 		870C747C490D0B1DD72EC2AD /* Pods-HamHumApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HamHumApp.release.xcconfig"; path = "Target Support Files/Pods-HamHumApp/Pods-HamHumApp.release.xcconfig"; sourceTree = "<group>"; };
 		E8875217C05E3B37D9212DF0 /* Pods-HamHumAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HamHumAppTests.release.xcconfig"; path = "Target Support Files/Pods-HamHumAppTests/Pods-HamHumAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		EA335B7A71B47C39D5DC25C7 /* Pods_HamHumApp_HamHumAppUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HamHumApp_HamHumAppUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FA1308CB26CAE50C00E2CFF7 /* CartTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartTableViewCell.swift; sourceTree = "<group>"; };
+		FA1308D426CB119700E2CFF7 /* ExcellentStepper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExcellentStepper.swift; sourceTree = "<group>"; };
+		FA1308D926CB11AA00E2CFF7 /* ExcellentStepperUIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExcellentStepperUIModel.swift; sourceTree = "<group>"; };
+		FA1308DF26CB198900E2CFF7 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		FA1308E726CB1DFC00E2CFF7 /* SearchCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCoordinator.swift; sourceTree = "<group>"; };
+		FA1308ED26CB1E4400E2CFF7 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		FA1308F526CB1F5800E2CFF7 /* ProfileCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCoordinator.swift; sourceTree = "<group>"; };
+		FA1308FE26CB2A1000E2CFF7 /* ListItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItemView.swift; sourceTree = "<group>"; };
+		FA13090326CB2A1C00E2CFF7 /* ListItemViewUIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItemViewUIModel.swift; sourceTree = "<group>"; };
+		FA13090926CB3F4500E2CFF7 /* OrderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderViewController.swift; sourceTree = "<group>"; };
 		FA25DEE926C3EE190053BC0F /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		FA4A934326C9C37600A64029 /* StandardButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardButton.swift; sourceTree = "<group>"; };
 		FA4A934826C9C55600A64029 /* StandardButtonUIModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandardButtonUIModel.swift; sourceTree = "<group>"; };
@@ -102,7 +122,7 @@
 		FA72EDBA26C7C378006FF80C /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		FA72EDC626C7C6A6006FF80C /* CartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartViewController.swift; sourceTree = "<group>"; };
 		FA72EDCB26C7C6E0006FF80C /* CartCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartCoordinator.swift; sourceTree = "<group>"; };
-		FA72EDD026C7DFA4006FF80C /* FavoriteCoordiantor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteCoordiantor.swift; sourceTree = "<group>"; };
+		FA72EDD026C7DFA4006FF80C /* OrderCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderCoordinator.swift; sourceTree = "<group>"; };
 		FA72EDD626C7DFF1006FF80C /* FavoritesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesViewController.swift; sourceTree = "<group>"; };
 		FA72EE5C26C84240006FF80C /* MainTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBar.swift; sourceTree = "<group>"; };
 		FA72EE6126C8604A006FF80C /* FoodSmallCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodSmallCardView.swift; sourceTree = "<group>"; };
@@ -198,6 +218,56 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		FA1308CA26CAE4BC00E2CFF7 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				FA1308CB26CAE50C00E2CFF7 /* CartTableViewCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		FA1308D326CB10FA00E2CFF7 /* ExcellentStepper */ = {
+			isa = PBXGroup;
+			children = (
+				FA1308D426CB119700E2CFF7 /* ExcellentStepper.swift */,
+				FA1308D926CB11AA00E2CFF7 /* ExcellentStepperUIModel.swift */,
+			);
+			path = ExcellentStepper;
+			sourceTree = "<group>";
+		};
+		FA1308DE26CB197A00E2CFF7 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				FA1308DF26CB198900E2CFF7 /* ProfileViewController.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		FA1308EC26CB1E3700E2CFF7 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				FA1308ED26CB1E4400E2CFF7 /* SearchViewController.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		FA1308FD26CB290900E2CFF7 /* ListItemView */ = {
+			isa = PBXGroup;
+			children = (
+				FA1308FE26CB2A1000E2CFF7 /* ListItemView.swift */,
+				FA13090326CB2A1C00E2CFF7 /* ListItemViewUIModel.swift */,
+			);
+			path = ListItemView;
+			sourceTree = "<group>";
+		};
+		FA13090826CB3ECC00E2CFF7 /* Order */ = {
+			isa = PBXGroup;
+			children = (
+				FA13090926CB3F4500E2CFF7 /* OrderViewController.swift */,
+			);
+			path = Order;
+			sourceTree = "<group>";
+		};
 		FA25DEE726C3EE020053BC0F /* Login */ = {
 			isa = PBXGroup;
 			children = (
@@ -252,6 +322,7 @@
 		FA72EDC526C7C699006FF80C /* Cart */ = {
 			isa = PBXGroup;
 			children = (
+				FA1308CA26CAE4BC00E2CFF7 /* Cell */,
 				FA72EDC626C7C6A6006FF80C /* CartViewController.swift */,
 			);
 			path = Cart;
@@ -388,6 +459,8 @@
 		FA8878C726C33DC800E58FC4 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				FA1308FD26CB290900E2CFF7 /* ListItemView */,
+				FA1308D326CB10FA00E2CFF7 /* ExcellentStepper */,
 				FAAF4C6826C99026006F6E81 /* BigRateView */,
 				FA4A937026C9F8AA00A64029 /* CartItemCardView */,
 				FA72EEA926C88D62006FF80C /* CategoryTitleWithImage */,
@@ -417,9 +490,11 @@
 			isa = PBXGroup;
 			children = (
 				FA7E8A9C26C4980D00239BB8 /* Coordinator.swift */,
-				FA72EDA526C7BF53006FF80C /* HomeCoordinator.swift */,
 				FA72EDCB26C7C6E0006FF80C /* CartCoordinator.swift */,
-				FA72EDD026C7DFA4006FF80C /* FavoriteCoordiantor.swift */,
+				FA72EDD026C7DFA4006FF80C /* OrderCoordinator.swift */,
+				FA72EDA526C7BF53006FF80C /* HomeCoordinator.swift */,
+				FA1308F526CB1F5800E2CFF7 /* ProfileCoordinator.swift */,
+				FA1308E726CB1DFC00E2CFF7 /* SearchCoordinator.swift */,
 			);
 			path = Coordinator;
 			sourceTree = "<group>";
@@ -464,6 +539,9 @@
 		FA8878CE26C33DFC00E58FC4 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				FA13090826CB3ECC00E2CFF7 /* Order */,
+				FA1308EC26CB1E3700E2CFF7 /* Search */,
+				FA1308DE26CB197A00E2CFF7 /* Profile */,
 				FAAF4C6226C96EF7006F6E81 /* FoodDetail */,
 				FA72EDD526C7DFAE006FF80C /* Favourite */,
 				FA72EDC526C7C699006FF80C /* Cart */,
@@ -789,11 +867,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA1308DA26CB11AA00E2CFF7 /* ExcellentStepperUIModel.swift in Sources */,
 				FA72EEBE26C897D6006FF80C /* MenuIconView.swift in Sources */,
 				FACAA31426C4543000FB0B5C /* FontSize.swift in Sources */,
 				FA72EE6226C8604A006FF80C /* FoodSmallCardView.swift in Sources */,
+				FA1308F626CB1F5800E2CFF7 /* ProfileCoordinator.swift in Sources */,
 				FA72EEB926C89166006FF80C /* Font.swift in Sources */,
 				FA25DEEA26C3EE190053BC0F /* LoginViewController.swift in Sources */,
+				FA1308E826CB1DFC00E2CFF7 /* SearchCoordinator.swift in Sources */,
+				FA1308E026CB198900E2CFF7 /* ProfileViewController.swift in Sources */,
 				FA95861C26C89A35003CD667 /* DeliveryAddresView.swift in Sources */,
 				FA72EDBB26C7C378006FF80C /* MainTabBarController.swift in Sources */,
 				FA72EE9C26C8744D006FF80C /* FoodRateViewUIModel.swift in Sources */,
@@ -801,6 +883,7 @@
 				FA72EE8E26C86CCA006FF80C /* FoodBigCardViewUIModel.swift in Sources */,
 				FAAF4C7726C99CA2006F6E81 /* UILabel+Ext.swift in Sources */,
 				FA72EDA626C7BF53006FF80C /* HomeCoordinator.swift in Sources */,
+				FA1308CC26CAE50C00E2CFF7 /* CartTableViewCell.swift in Sources */,
 				FA88789126C33D8F00E58FC4 /* AppDelegate.swift in Sources */,
 				FA8878FC26C342E000E58FC4 /* BaseViewModel.swift in Sources */,
 				FA4A934926C9C55600A64029 /* StandardButtonUIModel.swift in Sources */,
@@ -811,8 +894,11 @@
 				FA4A935B26C9E27B00A64029 /* StandardStepperUIModel.swift in Sources */,
 				FA72EE5D26C84240006FF80C /* MainTabBar.swift in Sources */,
 				FA4A934426C9C37600A64029 /* StandardButton.swift in Sources */,
+				FA1308FF26CB2A1000E2CFF7 /* ListItemView.swift in Sources */,
 				FA7E8A9D26C4980D00239BB8 /* Coordinator.swift in Sources */,
+				FA1308D526CB119700E2CFF7 /* ExcellentStepper.swift in Sources */,
 				FA8878ED26C3406E00E58FC4 /* UIImage+Ext.swift in Sources */,
+				FA13090426CB2A1C00E2CFF7 /* ListItemViewUIModel.swift in Sources */,
 				FA8878E626C3402F00E58FC4 /* Color.swift in Sources */,
 				FAAF4C7226C991FE006F6E81 /* BigRateViewUIModel.swift in Sources */,
 				FA8878FB26C342E000E58FC4 /* BaseViewController.swift in Sources */,
@@ -821,9 +907,10 @@
 				FA8878D926C33EC900E58FC4 /* HamHumApp.xcdatamodeld in Sources */,
 				FAAF4C6426C96F0C006F6E81 /* FoodDetailViewController.swift in Sources */,
 				FA4A936C26C9F38700A64029 /* FoodAddonViewUIModel.swift in Sources */,
-				FA72EDD126C7DFA4006FF80C /* FavoriteCoordiantor.swift in Sources */,
+				FA72EDD126C7DFA4006FF80C /* OrderCoordinator.swift in Sources */,
 				FA72EE6B26C8608F006FF80C /* FoodSmallCardViewUIModel.swift in Sources */,
 				FA72EDCC26C7C6E0006FF80C /* CartCoordinator.swift in Sources */,
+				FA1308EE26CB1E4400E2CFF7 /* SearchViewController.swift in Sources */,
 				FA4A937226C9F8E900A64029 /* CartItemCardView.swift in Sources */,
 				FA4A935326C9D1C800A64029 /* StandardStepper.swift in Sources */,
 				FA4A937726C9F8F700A64029 /* CartItemCardViewUIModel.swift in Sources */,
@@ -833,6 +920,7 @@
 				FA72EE9426C87444006FF80C /* FoodRateView.swift in Sources */,
 				FA72EE8626C86C4E006FF80C /* FoodBigCardView.swift in Sources */,
 				FAAF4C6A26C9904C006F6E81 /* BigRateView.swift in Sources */,
+				FA13090A26CB3F4500E2CFF7 /* OrderViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

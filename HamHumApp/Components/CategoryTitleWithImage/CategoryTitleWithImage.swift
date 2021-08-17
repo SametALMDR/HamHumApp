@@ -20,7 +20,7 @@ class CategoryTitleWithImage: UIView {
         let label = UILabel()
         label.text = "Burger"
         label.textColor = .white
-        label.font = UIFont(name: "CenturyGothic", size: 12)
+        label.font = UIFont(name: Font.CenturyGothic.regular, size: FontSize.h5)
         return label
     }()
     

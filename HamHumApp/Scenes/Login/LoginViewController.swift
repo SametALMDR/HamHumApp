@@ -38,7 +38,7 @@ class LoginViewController: UIViewController {
         textField.layer.borderColor = Color.neutrals.greyTwo.cgColor
         textField.textAlignment = .center
         textField.layer.cornerRadius = 15
-        textField.font = UIFont(name: "CenturyGothic", size: 12)
+        textField.font = UIFont(name: Font.CenturyGothic.regular, size: 12)
         return textField
     }()
     
@@ -49,7 +49,7 @@ class LoginViewController: UIViewController {
         textField.layer.borderColor = Color.neutrals.greyTwo.cgColor
         textField.textAlignment = .center
         textField.layer.cornerRadius = 15
-        textField.font = UIFont(name: "CenturyGothic", size: 12)
+        textField.font = UIFont(name: Font.CenturyGothic.regular, size: 12)
         return textField
     }()
     
@@ -58,7 +58,7 @@ class LoginViewController: UIViewController {
         button.setTitle("Log in", for: .normal)
         button.layer.cornerRadius = 17
         button.backgroundColor = Color.primary.red
-        button.titleLabel?.font = UIFont(name: "CenturyGothic", size: 12)
+        button.titleLabel?.font = UIFont(name: Font.CenturyGothic.regular, size: 12)
         return button
     }()
     
@@ -66,14 +66,14 @@ class LoginViewController: UIViewController {
         let label = UILabel()
         label.text = "Forgot your password?"
         label.textColor = Color.neutrals.greyFive
-        label.font = UIFont(name: "CenturyGothic", size: 12)
+        label.font = UIFont(name: Font.CenturyGothic.regular, size: 12)
         return label
     }()
     
     private let labelNewAccount: UILabel = {
         let label = UILabel()
         label.text = "Create new account"
-        label.font = UIFont(name: "CenturyGothic-Bold", size: 16)
+        label.font = UIFont(name: Font.CenturyGothic.bold, size: 16)
         label.textColor = Color.neutrals.greySix
         return label
     }()

@@ -31,7 +31,7 @@ class FoodDetailViewController: UIViewController {
         let label = UILabel()
         label.text = "Cranberry Cake"
         label.textColor = Color.neutrals.greySix
-        label.font = UIFont(name: "CenturyGothic-Bold", size: 30)
+        label.font = UIFont(name: Font.CenturyGothic.bold, size: 30)
         return label
     }()
     
@@ -42,7 +42,7 @@ class FoodDetailViewController: UIViewController {
     
     private let labelReview: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "CenturyGothic-Bold", size: FontSize.h4)
+        label.font = UIFont(name: Font.CenturyGothic.bold, size: FontSize.h4)
         label.textColor = Color.primary.red
         label.attributedText = NSAttributedString(string: "See Review", attributes: [.underlineStyle: NSUnderlineStyle.thick.rawValue])
         return label
@@ -51,7 +51,7 @@ class FoodDetailViewController: UIViewController {
     private let labelPrice: UILabel = {
         let label = UILabel()
         label.text = "$3.49"
-        label.font = UIFont(name: "CenturyGothic-Bold", size: FontSize.h1)
+        label.font = UIFont(name: Font.CenturyGothic.bold, size: FontSize.h1)
         label.textColor = Color.primary.red
         return label
     }()
