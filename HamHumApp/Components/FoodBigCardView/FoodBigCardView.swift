@@ -12,6 +12,8 @@ class FoodBigCardView: UIView {
     private let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
+        imageView.layer.masksToBounds = true
+        imageView.layer.cornerRadius = 20
         return imageView
     }()
     
@@ -74,29 +76,17 @@ class FoodBigCardView: UIView {
         return label
     }()
     
-    private let viewCategory: UIView = {
-        let view = UIView()
-        view.backgroundColor = Color.neutrals.greyOne
-        view.layer.cornerRadius = 5
-        return view
-    }()
-    
-    private let labelCategory: UILabel = {
-        let label = UILabel()
-        label.text = "BURGER"
-        label.textColor = Color.neutrals.greyThree
-        label.font = UIFont(name: Font.CenturyGothic.regular, size: FontSize.h5)
-        return label
-    }()
-    
     private let collectionViewCategory: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
+        layout.itemSize = CGSize(width: 75, height: 25)
+        layout.scrollDirection = .horizontal
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.backgroundColor = .blue
+        collectionView.backgroundColor = .none
+        collectionView.showsHorizontalScrollIndicator = false
         return collectionView
     }()
     
-    var categories = [String]()
+    private var categories = [String]()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -127,8 +117,8 @@ class FoodBigCardView: UIView {
         
         viewFoodRate.configure(with: FoodRateViewUIModel(rate: model.foodRateUIModel.rate, rateCount: model.foodRateUIModel.rateCount))
         
-        if let image = model.image {
-            imageView.image = UIImage(named: image)
+        if let imageUrl = model.image {
+            imageView.kf.setImage(with: URL(string: imageUrl))
         }
         
         if model.isFavorite {
@@ -150,15 +140,11 @@ class FoodBigCardView: UIView {
     private func configureCollectionView() {
         collectionViewCategory.delegate = self
         collectionViewCategory.dataSource = self
-        
-        collectionViewCategory.register(CategoryCollectionViewCell.self, forCellWithReuseIdentifier: CategoryCollectionViewCell.identifier)
+
+        collectionViewCategory.register(cellType: FoodBigCardViewCategoryCollectionViewCell.self)
     }
     
     private func layout(){
-        
-        snp.makeConstraints { (make) in
-            make.width.equalTo(295)
-        }
 
         addSubview(imageView)
         imageView.snp.makeConstraints { (make) in
@@ -187,6 +173,7 @@ class FoodBigCardView: UIView {
         addSubview(imageViewStatus)
         imageViewStatus.snp.makeConstraints { (make) in
             make.leading.equalTo(labelTitle.snp.trailing).offset(10)
+            make.trailing.equalToSuperview().offset(-10)
             make.centerY.equalTo(labelTitle)
             make.width.height.equalTo(15)
         }
@@ -200,59 +187,48 @@ class FoodBigCardView: UIView {
         addSubview(labelDeliveryPrice)
         labelDeliveryPrice.snp.makeConstraints { (make) in
             make.centerY.equalTo(imageViewDeliveryPrice)
-            make.leading.equalTo(imageViewDeliveryPrice.snp.trailing).offset(10)
-        }
-        
-        addSubview(imageViewDeliveryTime)
-        imageViewDeliveryTime.snp.makeConstraints { (make) in
-            make.top.equalTo(labelTitle.snp.bottom).offset(10)
-            make.leading.equalTo(labelDeliveryPrice.snp.trailing).offset(10)
+            make.leading.equalTo(imageViewDeliveryPrice.snp.trailing).offset(5)
         }
         
         addSubview(labelDeliveryTime)
         labelDeliveryTime.snp.makeConstraints { (make) in
-            make.centerY.equalTo(imageViewDeliveryTime)
-            make.leading.equalTo(imageViewDeliveryTime.snp.trailing).offset(10)
+            make.centerY.equalTo(labelDeliveryPrice)
+            make.trailing.equalToSuperview().offset(-10)
         }
         
-        addSubview(viewCategory)
-        viewCategory.snp.makeConstraints { (make) in
-            make.top.equalTo(imageViewDeliveryPrice.snp.bottom).offset(10)
-            make.leading.equalToSuperview().offset(13)
+        addSubview(imageViewDeliveryTime)
+        imageViewDeliveryTime.snp.makeConstraints { (make) in
+            make.centerY.equalTo(labelDeliveryPrice)
+            make.trailing.equalTo(labelDeliveryTime.snp.leading).offset(-5)
         }
         
-        viewCategory.addSubview(labelCategory)
-        labelCategory.snp.makeConstraints { (make) in
-            make.top.leading.equalTo(viewCategory).offset(6)
-            make.bottom.trailing.equalTo(viewCategory).offset(-6)
-        }
-        
+
         addSubview(collectionViewCategory)
         collectionViewCategory.snp.makeConstraints { (make) in
-            make.top.equalTo(viewCategory.snp.bottom).offset(12)
-            make.leading.equalToSuperview().offset(13)
-            make.bottom.equalToSuperview().offset(-50)
-            make.trailing.equalToSuperview().offset(-13)
+            make.top.equalTo(labelDeliveryTime.snp.bottom).offset(10)
+            make.leading.equalToSuperview().offset(12)
+            make.bottom.equalToSuperview().offset(-5)
+            make.trailing.equalToSuperview().offset(-12)
         }
         
     }
 }
 
 extension FoodBigCardView: UICollectionViewDelegate, UICollectionViewDataSource {
-    
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         categories.count
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategoryCollectionViewCell.identifier, for: indexPath) as? CategoryCollectionViewCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FoodBigCardViewCategoryCollectionViewCell.identifier, for: indexPath) as? FoodBigCardViewCategoryCollectionViewCell else {
             return UICollectionViewCell()
         }
-       
-        cell.configure(name: "selam")
-        
+
+        cell.configure(name: categories[indexPath.row])
+
         return cell
     }
-    
-    
+
+
 }

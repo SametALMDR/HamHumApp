@@ -43,7 +43,7 @@ class StandardStepper: UIView {
     }()
     
     //MARK: - Variables
-    private var value: Double = 0
+    var value: Double = 0
     private var minimumValue: Double = 0
     private var maximumValue: Double = 100
     private var stepValue: Double = 1
@@ -98,6 +98,7 @@ class StandardStepper: UIView {
             return
         }
         textField.text = showDecimal ? "\(newValue)" : "\(Int(newValue))"
+        value = newValue
     }
     
     @objc func increaseButtonTapped(){
@@ -106,9 +107,10 @@ class StandardStepper: UIView {
             return
         }
         textField.text = showDecimal ? "\(newValue)" : "\(Int(newValue))"
+        value = newValue
     }
     
-    private func currentValue() -> Double{
+    private func currentValue() -> Double {
         return Double(textField.text ?? "\(value)") ?? value
     }
     

@@ -6,8 +6,16 @@
 //
 
 import UIKit
+import SnapKit
+import Kingfisher
 
-class FoodDetailViewController: UIViewController {
+class FoodDetailViewController: BaseViewController<FoodDetailViewModel> {
+    
+    private enum Constants {
+        enum NavigationBar {
+            static let title: String = "Food Detail"
+        }
+    }
     
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -22,14 +30,13 @@ class FoodDetailViewController: UIViewController {
     
     private let imageViewFood: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleToFill
+        imageView.contentMode = .scaleAspectFill
         imageView.image = UIImage(named: "food-detail")
         return imageView
     }()
     
     private let labelFoodName: UILabel = {
         let label = UILabel()
-        label.text = "Cranberry Cake"
         label.textColor = Color.neutrals.greySix
         label.font = UIFont(name: Font.CenturyGothic.bold, size: 30)
         return label
@@ -50,7 +57,6 @@ class FoodDetailViewController: UIViewController {
     
     private let labelPrice: UILabel = {
         let label = UILabel()
-        label.text = "$3.49"
         label.font = UIFont(name: Font.CenturyGothic.bold, size: FontSize.h1)
         label.textColor = Color.primary.red
         return label
@@ -58,13 +64,9 @@ class FoodDetailViewController: UIViewController {
     
     private let labelDescription: UILabel = {
         let label = UILabel()
-        label.text = """
-            LTart cranberries, sweet buttery cake, and a fantastic texture all combine in this Cranberry Christmas Cake.This recipe is a holiday favorite!
-            """
         label.font = UIFont(name: Font.CenturyGothic.regular, size: FontSize.h3)
         label.textColor = Color.neutrals.greyThree
         label.numberOfLines = 0
-        label.setLineSpacing(spacing: 10)
         return label
     }()
     
@@ -97,36 +99,41 @@ class FoodDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        setupUI()
-        layout()
+
+        setNavigationTitle(title: Constants.NavigationBar.title)
+        showNavigationBar()
+        viewModel.delegate = self
+        configureAddToCartButton()
     }
     
-    private func setupUI(){
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        viewModel.load()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        clearStackViewData()
+    }
+    
+    private func configureAddToCartButton(){
+        buttonAddToCart.addTarget(self, action: #selector(addToCart), for: .touchUpInside)
+    }
+    
+    @objc func addToCart(){
+        CoreDataManager.shared.insertToCart(id: viewModel.foodID ?? 0, count: Int(stepper.value), addons: [])
+        //MARK: - Toast added to cart
+    }
+    
+    override func setupUI(){
         view.backgroundColor = .white
         
-        let models = [
-            FoodAddonViewUIModel(name: "Cream", price: "+$2.30"),
-            FoodAddonViewUIModel(name: "Chocolate sauce", price: "+$2.30"),
-            FoodAddonViewUIModel(name: "Vanilla ice cream", price: "+$2.30")
-        ]
-        let addon1 = FoodAddonView()
-        addon1.configure(with: models[0])
-        
-        let addon2 = FoodAddonView()
-        addon2.configure(with: models[1])
-        
-        let addon3 = FoodAddonView()
-        addon3.configure(with: models[2])
-        
-        stackViewAddons.addArrangedSubview(addon1)
-        stackViewAddons.addArrangedSubview(addon2)
-        stackViewAddons.addArrangedSubview(addon3)
-        rateView.configure(with: BigRateViewUIModel(rate: 4.2, rateCount: 67))
         stepper.configure(with: StandardStepperUIModel(value: 1, minimumValue: 1, maximumValue: 100, stepValue: 1))
     }
     
-    private func layout(){
+    override func layout(){
         
         let safeArea = self.view.safeAreaLayoutGuide
         
@@ -210,5 +217,37 @@ class FoodDetailViewController: UIViewController {
         }
     }
     
+    func clearStackViewData(){
+        stackViewAddons.arrangedSubviews.forEach { (view) in
+            stackViewAddons.removeArrangedSubview(view)
+            view.removeFromSuperview()
+        }
+    }
+    
 }
 
+extension FoodDetailViewController: FoodDetailViewModelDelegate {
+    
+    func loadData() {
+        labelFoodName.text = viewModel.food?.name
+        labelPrice.text = "\(viewModel.food?.price ?? 0) \(viewModel.food?.currency ?? "")"
+        labelDescription.text = viewModel.food?.description
+        labelDescription.setLineSpacing(spacing: 10)
+        if let imageUrl = viewModel.food?.image {
+            imageViewFood.kf.setImage(with: URL(string: imageUrl))
+        }
+        let rateUIModel = BigRateViewUIModel(rate: viewModel.food?.rate ?? 0,
+                                             rateCount: viewModel.food?.rate_count ?? 0)
+        rateView.configure(with: rateUIModel)
+        
+        if let addons = viewModel.food?.addons {
+            for addon in addons {
+                let addonView = FoodAddonView()
+                let addonViewUIModel = FoodAddonViewUIModel(name: "\(addon.name ?? "")", price: "\(addon.price ?? 0)")
+                addonView.configure(with: addonViewUIModel)
+                stackViewAddons.addArrangedSubview(addonView)
+            }
+        }
+    }
+    
+}

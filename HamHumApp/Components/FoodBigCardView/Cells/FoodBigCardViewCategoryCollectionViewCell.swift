@@ -7,16 +7,15 @@
 
 import UIKit
 
-class CategoryCollectionViewCell: UICollectionViewCell {
+class FoodBigCardViewCategoryCollectionViewCell: UICollectionViewCell {
 
     private let labelCategory: UILabel = {
         let label = UILabel()
         label.textColor = Color.neutrals.greyThree
         label.font = UIFont(name: "CenturyGothic", size: 11)
+        label.textAlignment = .center
         return label
     }()
-    
-    static let identifier = "CategoryCollectionViewCell"
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -30,12 +29,12 @@ class CategoryCollectionViewCell: UICollectionViewCell {
     }
     
     private func setupUI(){
-        backgroundColor = .black
+        backgroundColor = Color.neutrals.greyOne
         layer.cornerRadius = 5
     }
     
     func configure(name: String) {
-        labelCategory.text = name
+        labelCategory.text = name.uppercased()
     }
     
     private func layout() {

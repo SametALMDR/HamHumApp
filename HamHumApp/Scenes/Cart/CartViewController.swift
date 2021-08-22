@@ -6,8 +6,16 @@
 //
 
 import UIKit
+import SnapKit
+import CoreData
 
-class CartViewController: UIViewController {
+class CartViewController: BaseViewController<CartViewModel> {
+    
+    private enum Constants {
+        enum NavigationBar {
+            static let title: String = "Cart"
+        }
+    }
     
     private let viewCartSummary: UIView = {
         let view = UIView()
@@ -25,7 +33,7 @@ class CartViewController: UIViewController {
     
     private let labelTotalPrice: UILabel = {
         let label = UILabel()
-        label.text = "$59.49"
+        label.text = "0.00 ₺"
         label.textColor = Color.primary.black
         label.font = UIFont(name: Font.CenturyGothic.bold, size: 20)
         return label
@@ -45,30 +53,59 @@ class CartViewController: UIViewController {
         return tableView
     }()
     
-    var cartItems: [String] = ["1","2","3","4","5"]
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        viewModel.delegate = self
         setupUI()
         layout()
+        configureTableView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
+        viewModel.load()
+    }
+    
+    private func configureTableView(){
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(CartTableViewCell.self, forCellReuseIdentifier: CartTableViewCell.identifier)
     }
     
-    private func setupUI(){
-        view.backgroundColor = Color.secondary.background
+    private func setEmtpyView(){
+        let emptyView = UIView(frame: tableView.frame)
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "no-item")?.setColor(color: Color.primary.red.withAlphaComponent(0.5))
+      
+        emptyView.addSubview(imageView)
+        imageView.snp.makeConstraints { (make) in
+            make.center.equalTo(emptyView)
+            make.width.height.equalTo(150)
+        }
+        
+        tableView.backgroundView = emptyView
+    }
+    
+    private func removeEmptyView(){
+        tableView.backgroundView = nil
+    }
+    
+    override func setupUI(){
+        setBackgroundColor(color: Color.secondary.background)
+        setNavigationTitle(title: Constants.NavigationBar.title)
+        
         tableView.backgroundColor = Color.secondary.background
         tableView.separatorStyle = .none
+        
         viewCartSummary.layer.shadowOffset = CGSize(width: 0, height: 0)
         viewCartSummary.layer.shadowColor = UIColor.darkText.cgColor.copy(alpha: 0.5)
         viewCartSummary.layer.shadowOpacity = 0.2
         viewCartSummary.layer.shadowRadius = 4
     }
     
-    private func layout(){
+    override func layout(){
         
         let safeArea = view.safeAreaLayoutGuide
         
@@ -109,7 +146,14 @@ class CartViewController: UIViewController {
 extension CartViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        cartItems.count
+        
+        if viewModel.numberOfItems == 0 {
+            setEmtpyView()
+        }else{
+            removeEmptyView()
+        }
+        
+        return viewModel.numberOfItems
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -117,9 +161,9 @@ extension CartViewController: UITableViewDelegate, UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: CartTableViewCell.identifier, for: indexPath) as? CartTableViewCell else {
             return UITableViewCell()
         }
-        
-        cell.editingAccessoryView = UIView()
-        cell.configure(image: "cart-image", name: "Pizza", count: 3, singlePrice: 50)
+    
+        let item = viewModel.item(row: indexPath.row)
+        cell.configure(image: item.image, name: item.name ?? "" , count: item.count ?? 0, singlePrice: item.price ?? 0)
         
         return cell
     }
@@ -127,7 +171,7 @@ extension CartViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
         let deleteAction = UIContextualAction(style: .destructive, title: nil) {  (contextualAction, view, boolValue) in
-            self.cartItems.remove(at: indexPath.row)
+            self.viewModel.cartItems.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .automatic)
         }
         
@@ -138,4 +182,12 @@ extension CartViewController: UITableViewDelegate, UITableViewDataSource {
         return swipeActions
     }
 
+}
+
+extension CartViewController: CartViewModelDelegate {
+    
+    func reloadData() {
+        tableView.reloadData()
+    }
+    
 }

@@ -6,8 +6,15 @@
 //
 
 import UIKit
+import Kingfisher
 
-class ProfileViewController: UIViewController {
+class ProfileViewController: BaseViewController<ProfileViewModel> {
+    
+    private enum Constants {
+        enum NavigationBar {
+            static let title: String = "Profile"
+        }
+    }
     
     private let viewUserInformation: UIView = {
         let view = UIView()
@@ -24,13 +31,15 @@ class ProfileViewController: UIViewController {
     private let imageViewUserProfile: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
-        imageView.image = UIImage(named: "profile-image")
+        imageView.backgroundColor = Color.primary.red
+        imageView.layer.cornerRadius = 10
+        imageView.layer.masksToBounds = true
         return imageView
     }()
     
     private let labelFullName: UILabel = {
         let label = UILabel()
-        label.text = "Samet ALEMDAROĞLU"
+        label.text = "-"
         label.textColor = Color.neutrals.greySix
         label.textAlignment = .center
         label.numberOfLines = 0
@@ -40,7 +49,7 @@ class ProfileViewController: UIViewController {
     
     private let labelEmail: UILabel = {
         let label = UILabel()
-        label.text = "sametalemdaroglu@gmail.com"
+        label.text = "-"
         label.textColor = Color.neutrals.greyThree
         label.textAlignment = .center
         label.numberOfLines = 0
@@ -73,15 +82,37 @@ class ProfileViewController: UIViewController {
     
     private let listItemViewLogout: ListItemView = {
         let listItemView = ListItemView()
+        listItemView.isUserInteractionEnabled = true
         return listItemView
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configureComponents()
         setupUI()
         layout()
+        configureComponents()
+        configure()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        viewModel.load()
+    }
+    
+    private func configure(){
+        
+        viewModel.delegate = self
+        
+        let tapGestureLogout = UITapGestureRecognizer(target: self, action: #selector(logout))
+        listItemViewLogout.addGestureRecognizer(tapGestureLogout)
+    }
+    
+    @objc func logout() {
+        UserDefaults.standard.removeObject(forKey: "token")
+        UserDefaults.standard.removeObject(forKey: "userID")
+        dismiss(animated: true, completion: nil)
     }
     
     private func configureComponents(){
@@ -91,11 +122,12 @@ class ProfileViewController: UIViewController {
         listItemViewLogout.configure(with: ListItemViewUIModel(leftIcon: "list-icon-logout", name: "Logout", rightIcon: "list-icon-arrow"))
     }
     
-    private func setupUI(){
-        view.backgroundColor = Color.secondary.background
+    override func setupUI(){
+        setNavigationTitle(title: Constants.NavigationBar.title)
+        setBackgroundColor(color: Color.secondary.background)
     }
     
-    private func layout(){
+    override func layout(){
         
         let safeArea = view.safeAreaLayoutGuide
         
@@ -138,6 +170,18 @@ class ProfileViewController: UIViewController {
         stackViewListItems.addArrangedSubview(listItemViewOrders)
         stackViewListItems.addArrangedSubview(listItemViewDeliveryAddresses)
         stackViewListItems.addArrangedSubview(listItemViewLogout)
+    }
+    
+}
+
+extension ProfileViewController: ProfileViewModelDelegate {
+    
+    func dataLoaded() {
+        if let user = viewModel.user {
+            imageViewUserProfile.kf.setImage(with: URL(string: user.image ?? ""))
+            labelFullName.text = "\(user.name ?? "") \(user.surname ?? "")"
+            labelEmail.text = "\(user.email ?? "")"
+        }
     }
     
 }

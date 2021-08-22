@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class CartTableViewCell: UITableViewCell {
 
@@ -33,6 +34,7 @@ class CartTableViewCell: UITableViewCell {
     
     private func setupUI(){
         viewContent.backgroundColor = Color.secondary.background
+        editingAccessoryView = UIView()
     }
     
     func configure(image: String?, name: String, count: Int, singlePrice: Double){

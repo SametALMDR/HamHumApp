@@ -19,7 +19,7 @@ class DeliveryAddressView: UIView {
     
     private let labelAddress: UILabel = {
         let label = UILabel()
-        label.text = "3245 Palm Street Lan"
+        label.text = "-"
         label.textColor = Color.primary.red
         label.font = UIFont(name: Font.CenturyGothic.bold, size: FontSize.h4)
         return label

@@ -9,18 +9,36 @@ import UIKit
 
 class BaseViewController<ViewModel: BaseViewModel>: UIViewController {
 
-//    var coordinator: CoordinatorProtocol?
-    
     var viewModel: ViewModel = ViewModel()
-    
-    var viewModelData: ViewModelData?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        setupUI()
+        layout()
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    func setupUI() {
+        
+    }
+    
+    func layout(){
+        
+    }
+    
+    func setNavigationTitle(title: String) {
+        navigationItem.title = title
+    }
+    
+    func setBackgroundColor(color: UIColor) {
+        view.backgroundColor = color
+    }
+    
+    func showNavigationBar(){
+        navigationController?.navigationBar.isHidden = false
+    }
+    
+    func hideNavigationBar(){
+        navigationController?.navigationBar.isHidden = true
     }
 }

@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol ExcellentStepperDelegate: AnyObject {
+    func valueChanged()
+}
+
 class ExcellentStepper: UIView {
     
     //MARK: - Views
@@ -43,8 +47,11 @@ class ExcellentStepper: UIView {
         return imageView
     }()
     
+    
     //MARK: - Variables
-    private var value: Double = 0
+    
+    weak var delegate: ExcellentStepperDelegate?
+    var value: Double = 0
     private var minimumValue: Double = 0
     private var maximumValue: Double = 100
     private var stepValue: Double = 1
@@ -94,12 +101,19 @@ class ExcellentStepper: UIView {
         stepValue = model.stepValue
     }
     
+    func setValue(value: Double) {
+        self.value = value
+        textField.text = showDecimal ? "\(value)" : "\(Int(value))"
+    }
+    
     @objc func decreaseButtonTapped(){
         let newValue = currentValue() - stepValue
         if newValue < minimumValue {
             return
         }
         textField.text = showDecimal ? "\(newValue)" : "\(Int(newValue))"
+        value = newValue
+        self.delegate?.valueChanged()
     }
     
     @objc func increaseButtonTapped(){
@@ -108,6 +122,8 @@ class ExcellentStepper: UIView {
             return
         }
         textField.text = showDecimal ? "\(newValue)" : "\(Int(newValue))"
+        value = newValue
+        self.delegate?.valueChanged()
     }
     
     private func currentValue() -> Double{

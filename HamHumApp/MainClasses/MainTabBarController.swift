@@ -18,31 +18,65 @@ class MainTabBarController: UITabBarController {
         }
     }
     
-    let homeCoordinator = HomeCoordinator()
-    let searchCoordinator = SearchCoordinator()
-    let cartCoordinator = CartCoordinator()
-    let orderCoordinator = OrderCoordinator()
-    let profileCoordinaor = ProfileCoordinator()
+    private let homeNC = UINavigationController(rootViewController: HomeViewController())
+    private let searchNC = UINavigationController(rootViewController: SearchViewController())
+    private let cartNC = UINavigationController(rootViewController: CartViewController())
+    private let orderNC = UINavigationController(rootViewController: OrderViewController())
+    private let profileNC = UINavigationController(rootViewController: ProfileViewController())
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupUI()
+        configureTabBarItems()
+        configureNavigationBar()
+        viewControllers = [homeNC, searchNC, cartNC, orderNC, profileNC]
         
-        homeCoordinator.start()
-        searchCoordinator.start()
-        cartCoordinator.start()
-        orderCoordinator.start()
-        profileCoordinaor.start()
+    }
+    
+    private func configureTabBarItems() {
+        homeNC.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "home-tab-icon"), tag: 100)
+        searchNC.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "search-tab-icon"), tag: 101)
+        let cartTabBarItem = UITabBarItem(title: nil, image: UIImage(named: "cart-tab-icon"), tag: 102)
+        cartTabBarItem.imageInsets = UIEdgeInsets(top: -25, left: 0, bottom: 25, right: 0)
+        cartNC.tabBarItem = cartTabBarItem
+        orderNC.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "order-tab-icon"), tag: 103)
+        profileNC.tabBarItem = UITabBarItem(title: nil, image: UIImage(named: "profile-tab-icon"), tag: 104)
+    }
+    
+    private func configureNavigationBar(){
+        homeNC.navigationBar.barTintColor = Color.primary.red
+        homeNC.navigationBar.backgroundColor = Color.primary.red
+        homeNC.navigationBar.tintColor = .white
+        homeNC.navigationBar.titleTextAttributes = [.font: UIFont(name: Font.CenturyGothic.bold, size: FontSize.f18) as Any,
+                                                    .foregroundColor: UIColor.white]
         
-        viewControllers = [
-            homeCoordinator.navigationController,
-            searchCoordinator.navigationController,
-            cartCoordinator.navigationController,
-            orderCoordinator.navigationController,
-            profileCoordinaor.navigationController
-        ]
+        searchNC.navigationBar.barTintColor = Color.primary.red
+        searchNC.navigationBar.backgroundColor = Color.primary.red
+        searchNC.navigationBar.tintColor = .white
+        searchNC.navigationBar.titleTextAttributes = [.font: UIFont(name: Font.CenturyGothic.bold, size: FontSize.f18) as Any,
+                                                    .foregroundColor: UIColor.white]
         
+        cartNC.navigationBar.isTranslucent = false
+        cartNC.navigationBar.barTintColor = Color.primary.red
+        cartNC.navigationBar.backgroundColor = Color.primary.red
+        cartNC.navigationBar.tintColor = .white
+        cartNC.navigationBar.titleTextAttributes = [.font: UIFont(name: Font.CenturyGothic.bold, size: FontSize.f18) as Any,
+                                                    .foregroundColor: UIColor.white]
+        
+        orderNC.navigationBar.isTranslucent = false
+        orderNC.navigationBar.barTintColor = Color.primary.red
+        orderNC.navigationBar.backgroundColor = Color.primary.red
+        orderNC.navigationBar.tintColor = .white
+        orderNC.navigationBar.titleTextAttributes = [.font: UIFont(name: Font.CenturyGothic.bold, size: FontSize.f18) as Any,
+                                                    .foregroundColor: UIColor.white]
+        
+        profileNC.navigationBar.isTranslucent = false
+        profileNC.navigationBar.barTintColor = Color.primary.red
+        profileNC.navigationBar.backgroundColor = Color.primary.red
+        profileNC.navigationBar.tintColor = .white
+        profileNC.navigationBar.titleTextAttributes = [.font: UIFont(name: Font.CenturyGothic.bold, size: FontSize.f18) as Any,
+                                                    .foregroundColor: UIColor.white]
     }
     
     private func setupUI() {

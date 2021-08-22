@@ -6,8 +6,9 @@
 //
 
 import SnapKit
+import NotificationBannerSwift
 
-class LoginViewController: UIViewController {
+class LoginViewController: BaseViewController<LoginViewModel> {
     
     private let viewContext: UIView = {
         let view = UIView()
@@ -18,17 +19,8 @@ class LoginViewController: UIViewController {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.spacing = 12
+        stackView.distribution = .fillEqually
         return stackView
-    }()
-    
-    private let textFieldFirstName: UITextField = {
-        let textField = UITextField()
-        return textField
-    }()
-    
-    private let textFieldLastName: UITextField = {
-        let textField = UITextField()
-        return textField
     }()
     
     private let textFieldEmailorUsername: UITextField = {
@@ -50,6 +42,7 @@ class LoginViewController: UIViewController {
         textField.textAlignment = .center
         textField.layer.cornerRadius = 15
         textField.font = UIFont(name: Font.CenturyGothic.regular, size: 12)
+        textField.isSecureTextEntry = true
         return textField
     }()
     
@@ -75,6 +68,7 @@ class LoginViewController: UIViewController {
         label.text = "Create new account"
         label.font = UIFont(name: Font.CenturyGothic.bold, size: 16)
         label.textColor = Color.neutrals.greySix
+        label.isUserInteractionEnabled = true
         return label
     }()
     
@@ -94,25 +88,53 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = Color.secondary.background
-        
-        setupLayouts()
+        configure()
     }
     
-    private func setupLayouts(){
+    override func setupUI() {
+        view.backgroundColor = Color.secondary.background
+    }
+    
+    private func configure(){
+        
+        viewModel.delegate = self
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(goToRegister))
+        labelNewAccount.addGestureRecognizer(tapGesture)
+    
+        buttonLogin.addTarget(self, action: #selector(login), for: .touchUpInside)
+    }
+    
+    @objc func login(){
+        
+        if textFieldEmailorUsername.text?.isEmpty ?? true || textFieldPassword.text?.isEmpty ?? true {
+            let banner = NotificationBanner(title: "Error", subtitle: "Please, fill in all fields", style: .danger)
+            banner.dismiss()
+            banner.show()
+            return
+        }
+        
+        viewModel.email = textFieldEmailorUsername.text ?? ""
+        viewModel.password = textFieldPassword.text ?? ""
+        viewModel.login()
+    }
+    
+    @objc func goToRegister(){
+        let VC = RegisterViewController()
+        VC.modalPresentationStyle = .currentContext
+        present(VC, animated: true, completion: nil)
+    }
+    
+    private func clearFields(){
+        textFieldEmailorUsername.text = ""
+        textFieldPassword.text = ""
+    }
+    
+    override func layout(){
         
         let safeArea = view.safeAreaLayoutGuide
         
-        stackViewTextFields.addArrangedSubview(textFieldEmailorUsername)
-        stackViewTextFields.addArrangedSubview(textFieldPassword)
-          
         view.addSubview(imageViewBackground)
-        view.addSubview(imageViewLogo)
-        view.addSubview(stackViewTextFields)
-        view.addSubview(buttonLogin)
-        view.addSubview(labelForgotPassword)
-        view.addSubview(labelNewAccount)
-        
         imageViewBackground.snp.makeConstraints { (make) in
             make.top.equalTo(safeArea)
             make.leading.equalTo(safeArea)
@@ -120,26 +142,23 @@ class LoginViewController: UIViewController {
             make.height.equalTo(359)
         }
         
+        view.addSubview(imageViewLogo)
         imageViewLogo.snp.makeConstraints { (make) in
             make.bottom.equalTo(imageViewBackground).offset(-79)
             make.height.equalTo(90)
-            make.centerX.equalTo(safeArea)
+            make.centerX.equalToSuperview()
         }
+        
+        view.addSubview(stackViewTextFields)
+        stackViewTextFields.addArrangedSubview(textFieldEmailorUsername)
+        stackViewTextFields.addArrangedSubview(textFieldPassword)
         
         stackViewTextFields.snp.makeConstraints { (make) in
-            make.center.equalTo(view.center)
+            make.top.equalTo(imageViewLogo.snp.bottom)
+            make.centerX.equalToSuperview()
         }
         
-        textFieldEmailorUsername.snp.makeConstraints { (make) in
-            make.width.equalTo(244)
-            make.height.equalTo(32)
-        }
-        
-        textFieldPassword.snp.makeConstraints { (make) in
-            make.width.equalTo(244)
-            make.height.equalTo(32)
-        }
-        
+        view.addSubview(buttonLogin)
         buttonLogin.snp.makeConstraints { (make) in
             make.top.equalTo(stackViewTextFields.snp.bottom).offset(19)
             make.centerX.equalTo(safeArea)
@@ -147,16 +166,43 @@ class LoginViewController: UIViewController {
             make.height.equalTo(34)
         }
         
-        labelForgotPassword.snp.makeConstraints { (make) in
-            make.top.equalTo(buttonLogin.snp.bottom).offset(23)
-            make.centerX.equalTo(safeArea)
-        }
-                
+        view.addSubview(labelNewAccount)
         labelNewAccount.snp.makeConstraints { (make) in
             make.bottom.equalTo(safeArea).offset(-52)
             make.centerX.equalTo(safeArea)
         }
         
+        textFieldEmailorUsername.snp.makeConstraints { (make) in
+            make.width.equalTo(244)
+            make.height.equalTo(32)
+        }
+
+        textFieldPassword.snp.makeConstraints { (make) in
+            make.width.equalTo(244)
+            make.height.equalTo(32)
+        }
+
         
     }
+}
+
+extension LoginViewController: LoginViewModelDelegate {
+    
+    func showAlert(type: AlertType) {
+        if type == .success {
+            let banner = NotificationBanner(title: "Success", subtitle: viewModel.successMessage, style: .success)
+            banner.show()
+            
+            clearFields()
+            
+            let VC = MainTabBarController()
+            VC.modalPresentationStyle = .currentContext
+            self.present(VC, animated: true, completion: nil)
+            
+        }else {
+            let banner = NotificationBanner(title: "Error", subtitle: viewModel.errorMessage, style: .danger)
+            banner.show()
+        }
+    }
+    
 }

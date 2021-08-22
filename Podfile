@@ -7,6 +7,9 @@ target 'HamHumApp' do
 
   # Pods for HamHumApp
     pod 'SnapKit', '~> 5.0.0'
+    pod 'Alamofire', '~> 5.2'
+    pod 'Kingfisher', '~> 6.0'
+    pod 'NotificationBannerSwift', '~> 3.0.0'
   target 'HamHumAppTests' do
     inherit! :search_paths
     # Pods for testing

@@ -19,7 +19,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.windowScene = windowScene
-        window?.rootViewController = MainTabBarController()
+        
+        if let userToken = UserDefaults.standard.string(forKey: "token") {
+            window?.rootViewController = MainTabBarController()
+        }else{
+            window?.rootViewController = LoginViewController()
+        }
+        
         window?.makeKeyAndVisible()
     }
 

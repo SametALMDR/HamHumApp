@@ -11,7 +11,9 @@ class CartItemCardView: UIView {
     
     private let imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
+        imageView.layer.masksToBounds = true
+        imageView.layer.cornerRadius = 75/2
         return imageView
     }()
     
@@ -69,6 +71,7 @@ class CartItemCardView: UIView {
     private func commonInit() {
         setupUI()
         layout()
+        stepper.delegate = self
     }
     
     private func setupUI(){
@@ -80,12 +83,17 @@ class CartItemCardView: UIView {
         layer.shadowRadius = 4
     }
     
+    private var singlePrice: Double = 0
+    
     func configure(with model: CartItemCardViewUIModel){
-        if let image = model.image {
-            imageView.image = UIImage(named: image)
+        if let imageUrl = model.image {
+            imageView.kf.setImage(with: URL(string: imageUrl))
         }
         labelName.text = model.name
-        labelPrice.text = "$\(model.singlePrice)"
+        singlePrice = model.singlePrice
+        let singleTotal = String(format: "%.2f", model.singlePrice * Double(model.count))
+        labelPrice.text = "$ \(singleTotal)"
+        stepper.setValue(value: Double(model.count))
     }
     
     private func layout(){
@@ -106,4 +114,13 @@ class CartItemCardView: UIView {
         stackViewContentRightBottom.addArrangedSubview(stepper)
         stackViewContentRightBottom.addArrangedSubview(labelPrice)
     }
+}
+
+extension CartItemCardView: ExcellentStepperDelegate {
+    
+    func valueChanged() {
+        let singleTotal = String(format: "%.2f", singlePrice * stepper.value)
+        labelPrice.text = "$ \(singleTotal)"
+    }
+    
 }

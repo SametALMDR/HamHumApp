@@ -7,15 +7,9 @@
 
 import Foundation
 
-protocol ViewModelData {}
-
-protocol BaseViewModelDelegate {
-    
-}
 
 class BaseViewModel {
     
-    var delegate: BaseViewModelDelegate?
-    
     required init() {}
+    
 }

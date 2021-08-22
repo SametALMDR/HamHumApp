@@ -7,7 +7,7 @@
 
 import SnapKit
 
-class HomeViewController: UIViewController {
+class HomeViewController: BaseViewController<HomeViewModel> {
     
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -47,35 +47,27 @@ class HomeViewController: UIViewController {
         let label = UILabel()
         label.text = "What would you like to order today?"
         label.textColor = Color.neutrals.greySix
-        label.font = UIFont(name: "CenturyGothic-Bold", size: 30)
+        label.font = UIFont(name: Font.CenturyGothic.bold, size: 30)
         label.numberOfLines = 0
         return label
     }()
     
-    private let searchTextField: UISearchTextField = {
-        let searchTextField = UISearchTextField()
-        searchTextField.backgroundColor = .white
-        searchTextField.background = UIImage()
-        searchTextField.tintColor = Color.primary.red
-        searchTextField.tokenBackgroundColor = .blue
-        searchTextField.placeholder = "Search"
-        searchTextField.font = UIFont(name: "CenturyGothic", size: 14)
-        searchTextField.textColor = Color.neutrals.greyThree
-        searchTextField.layer.cornerRadius = 10
-        return searchTextField
-    }()
-    
-    //here
-    private let categoryTitle: CategoryTitleWithImage = {
-        let view = CategoryTitleWithImage()
-        return view
+    private let collectionViewCategories: UICollectionView = {
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.scrollDirection = .horizontal
+        flowLayout.sectionInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
+        flowLayout.itemSize = CGSize(width: 68, height: 108)
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
+        collectionView.backgroundColor = .none
+        collectionView.showsHorizontalScrollIndicator = false
+        return collectionView
     }()
     
     private let labelRecommendedTitle: UILabel = {
         let label = UILabel()
         label.text = "Recommended"
         label.textColor = Color.neutrals.greySix
-        label.font = UIFont(name: "CenturyGothic-Bold", size: 20)
+        label.font = UIFont(name: Font.CenturyGothic.bold, size: 20)
         return label
     }()
     
@@ -83,56 +75,83 @@ class HomeViewController: UIViewController {
         let label = UILabel()
         label.text = "View All >"
         label.textColor = Color.primary.red
-        label.font = UIFont(name: "CenturyGothic-Bold", size: 13)
+        label.font = UIFont(name: Font.CenturyGothic.bold, size: 13)
         return label
     }()
     
-    private let foodBigCard: FoodBigCardView = {
-        let view = FoodBigCardView()
-        return view
+    private let collectionViewRecommendedFoods: UICollectionView = {
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.scrollDirection = .horizontal
+        flowLayout.sectionInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
+        flowLayout.itemSize = CGSize(width: 255, height: 255)
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
+        collectionView.backgroundColor = .none
+        collectionView.showsHorizontalScrollIndicator = false
+        return collectionView
     }()
     
     private let labelPopularItems: UILabel = {
         let label = UILabel()
         label.text = "Popular Items"
         label.textColor = Color.neutrals.greySix
-        label.font = UIFont(name: "CenturyGothic-Bold", size: 20)
+        label.font = UIFont(name: Font.CenturyGothic.bold, size: 20)
         return label
     }()
-    
+
     private let labelPopularAll: UILabel = {
         let label = UILabel()
         label.text = "View All >"
         label.textColor = Color.primary.red
-        label.font = UIFont(name: "CenturyGothic-Bold", size: 13)
+        label.font = UIFont(name: Font.CenturyGothic.bold, size: 13)
         return label
     }()
-    
-    private let foodSmallCard: FoodSmallCardView = {
-        let view = FoodSmallCardView()
-        return view
+
+    private let collectionViewPopularFoods: UICollectionView = {
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.scrollDirection = .horizontal
+        flowLayout.sectionInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 5)
+        flowLayout.itemSize = CGSize(width: 140, height: 80)
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
+        collectionView.backgroundColor = .none
+        collectionView.showsHorizontalScrollIndicator = false
+        return collectionView
     }()
+    
+    private var selectedCategoryIndex: Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = Color.secondary.background
-        layout()
-        foodBigCard.configure(with: FoodBigCardViewUIModel(
-                                foodRateUIModel: FoodRateViewUIModel(rate: 4.5, rateCount: 25),
-                                isFavorite: true,
-                                image: "crepesandwaffels",
-                                title: "Crepes and Waffles",
-                                isAvailable: true,
-                                deliveryPrice: "Free delivery",
-                                deliveryTime: "10 - 15 mins",
-                                categories: ["aas","ass"])
-        )
-        foodSmallCard.configure(with: FoodSmallCardViewUIModel(image: "popular", title: "Waffles", subtitle: "Lorem ipsum dolor", price: "$3.99"))
-        
+        configureCollectionView()
     }
     
-    func layout(){
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        hideNavigationBar()
+        viewModel.delegate = self
+        viewModel.load()
+    }
+    
+    override func setupUI(){
+        view.backgroundColor = Color.secondary.background
+    }
+    
+    private func configureCollectionView(){
+        collectionViewCategories.delegate = self
+        collectionViewCategories.dataSource = self
+        collectionViewCategories.register(cellType: HomeCategoryCollectionViewCell.self)
+        
+        collectionViewRecommendedFoods.delegate = self
+        collectionViewRecommendedFoods.dataSource = self
+        collectionViewRecommendedFoods.register(cellType: HomeRecommendedCollectionViewCell.self)
+        
+        collectionViewPopularFoods.delegate = self
+        collectionViewPopularFoods.dataSource = self
+        collectionViewPopularFoods.register(cellType: HomePopularCollectionViewCell.self)
+    }
+    
+    override func layout(){
 
         let safeArea = self.view.safeAreaLayoutGuide
         
@@ -176,23 +195,17 @@ class HomeViewController: UIViewController {
             make.top.equalTo(viewDeliveryAddress.snp.bottom).offset(30)
             make.leading.trailing.equalTo(scrollViewContent)
         }
-
-        scrollViewContent.addSubview(searchTextField)
-        searchTextField.snp.makeConstraints { (make) in
-            make.top.equalTo(labelSearchTitle.snp.bottom).offset(30)
-            make.leading.trailing.equalTo(scrollViewContent)
-            make.height.equalTo(60)
-        }
         
-        scrollViewContent.addSubview(categoryTitle)
-        categoryTitle.snp.makeConstraints { (make) in
-            make.top.equalTo(searchTextField.snp.bottom).offset(30)
-            make.leading.equalToSuperview()
+        scrollViewContent.addSubview(collectionViewCategories)
+        collectionViewCategories.snp.makeConstraints { (make) in
+            make.top.equalTo(labelSearchTitle.snp.bottom).offset(30)
+            make.leading.trailing.equalToSuperview()
+            make.height.equalTo(130)
         }
 
         scrollViewContent.addSubview(labelRecommendedTitle)
         labelRecommendedTitle.snp.makeConstraints { (make) in
-            make.top.equalTo(categoryTitle.snp.bottom).offset(30)
+            make.top.equalTo(collectionViewCategories.snp.bottom).offset(30)
             make.leading.equalTo(scrollViewContent)
         }
 
@@ -202,31 +215,136 @@ class HomeViewController: UIViewController {
             make.trailing.equalToSuperview()
         }
         
-        scrollViewContent.addSubview(foodBigCard)
-        foodBigCard.snp.makeConstraints { (make) in
+        scrollViewContent.addSubview(collectionViewRecommendedFoods)
+        collectionViewRecommendedFoods.snp.makeConstraints { (make) in
             make.top.equalTo(labelRecommendedTitle.snp.bottom).offset(20)
-            make.leading.equalTo(scrollViewContent)
+            make.leading.trailing.equalTo(scrollViewContent)
+            make.height.equalTo(260)
         }
         
         
         scrollViewContent.addSubview(labelPopularItems)
         labelPopularItems.snp.makeConstraints { (make) in
-            make.top.equalTo(foodBigCard.snp.bottom).offset(30)
+            make.top.equalTo(collectionViewRecommendedFoods.snp.bottom).offset(30)
             make.leading.trailing.equalTo(scrollViewContent)
         }
-        
+
         scrollViewContent.addSubview(labelPopularAll)
         labelPopularAll.snp.makeConstraints { (make) in
             make.centerY.equalTo(labelPopularItems)
             make.trailing.equalToSuperview()
         }
-        
-        scrollViewContent.addSubview(foodSmallCard)
-        foodSmallCard.snp.makeConstraints { (make) in
+
+        scrollViewContent.addSubview(collectionViewPopularFoods)
+        collectionViewPopularFoods.snp.makeConstraints { (make) in
             make.top.equalTo(labelPopularItems.snp.bottom).offset(20)
-            make.leading.equalTo(scrollViewContent)
+            make.leading.trailing.equalTo(scrollViewContent)
+            make.height.equalTo(100)
             make.bottom.equalTo(scrollViewContent).offset(-50)
         }
         
     }
+}
+
+
+extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
+        if collectionView == collectionViewCategories {
+            return viewModel.numberOfCategoryItems
+        }
+        
+        if collectionView == collectionViewRecommendedFoods {
+            return viewModel.numberOfRecommendedItems
+        }
+
+        return viewModel.numberOfPopularItems
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+     
+        // Configuration of Category Cells
+        if collectionView == collectionViewCategories {
+            let cell = collectionView.dequeCell(cellType: HomeCategoryCollectionViewCell.self, indexPath: indexPath)
+            
+            let category = viewModel.category(row: indexPath.row)
+            cell.configure(with: category)
+            
+            // Control of selected category item
+            if selectedCategoryIndex == indexPath.row {
+                cell.selected()
+            }else{
+                cell.notSelected()
+            }
+            
+            return cell
+        }
+        
+        // Configuration of Recommended Food Cells
+        if collectionView == collectionViewRecommendedFoods {
+            
+            let cell = collectionView.dequeCell(cellType: HomeRecommendedCollectionViewCell.self, indexPath: indexPath)
+            
+            let recommendedFood = viewModel.recommendedFood(row: indexPath.row)
+            cell.configure(with: recommendedFood)
+            
+            return cell
+        }
+        
+        // Configuration of Popular Food Cells
+        let cell = collectionView.dequeCell(cellType: HomePopularCollectionViewCell.self, indexPath: indexPath)
+        
+        let popularFood = viewModel.popularFood(row: indexPath.row)
+        cell.configure(with: popularFood)
+        
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        if collectionView == collectionViewCategories {
+            selectedCategoryIndex = indexPath.row
+            collectionView.reloadData()
+        }
+        
+        if collectionView == collectionViewRecommendedFoods {
+            
+            let recommendedFood = viewModel.recommendedFood(row: indexPath.row)
+            
+            if let id = recommendedFood.id {
+                let foodDetailVC = FoodDetailViewController()
+                foodDetailVC.viewModel.foodID = id
+                navigationController?.pushViewController(foodDetailVC, animated: true)
+            }
+        }
+        
+        if collectionView == collectionViewPopularFoods {
+            
+            let popularFood = viewModel.popularFood(row: indexPath.row)
+            
+            if let id = popularFood.id {
+                let foodDetailVC = FoodDetailViewController()
+                foodDetailVC.viewModel.foodID = id
+                navigationController?.pushViewController(foodDetailVC, animated: true)
+            }
+        }
+        
+    }
+}
+
+extension HomeViewController: HomeViewModelDelegate {
+    
+    func reloadDataCategories() {
+        collectionViewCategories.reloadData()
+    }
+    
+    func reloadDataRecommendedFoods() {
+        collectionViewRecommendedFoods.reloadData()
+    }
+    
+    func reloadDataPopularFoods() {
+        collectionViewPopularFoods.reloadData()
+    }
+
 }

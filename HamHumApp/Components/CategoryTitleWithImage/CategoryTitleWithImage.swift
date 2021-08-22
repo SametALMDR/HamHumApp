@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class CategoryTitleWithImage: UIView {
     
@@ -55,12 +56,37 @@ class CategoryTitleWithImage: UIView {
         layer.shadowRadius = 4
     }
     
+    func configure(with model: CategoryTitleWithImageUIModel){
+        if let image = model.image {
+            if let imageUrl = URL(string: image) {
+                imageView.kf.setImage(with: imageUrl)
+            }
+        }
+        labelName.text = model.name
+    }
+    
+    func selected() {
+        backgroundColor = Color.primary.red
+        layer.cornerRadius = 33
+        layer.shadowOffset = CGSize(width: 0, height: 4)
+        layer.shadowColor = Color.primary.red.cgColor
+        layer.shadowOpacity = 1
+        layer.shadowRadius = 4
+        labelName.textColor = .white
+    }
+    
+    func notSelected() {
+        backgroundColor = .white
+        layer.cornerRadius = 33
+        layer.shadowOffset = CGSize(width: 0, height: 4)
+        layer.shadowColor = Color.neutrals.greyTwo.cgColor
+        layer.shadowOpacity = 1
+        layer.shadowRadius = 4
+        labelName.textColor = Color.neutrals.greyThree
+    }
+    
     private func layout(){
 
-        snp.makeConstraints { (make) in
-            make.width.equalTo(68)
-            make.height.equalTo(108)
-        }
         
         addSubview(viewImage)
         viewImage.snp.makeConstraints { (make) in

@@ -13,6 +13,7 @@ class FoodSmallCardView: UIView {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.spacing = 10
+        stackView.distribution = .fillEqually
         return stackView
     }()
     
@@ -27,7 +28,7 @@ class FoodSmallCardView: UIView {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.layer.masksToBounds = true
-        imageView.layer.cornerRadius = 21
+        imageView.layer.cornerRadius = 20
         return imageView
     }()
     
@@ -78,8 +79,8 @@ class FoodSmallCardView: UIView {
     
     func configure(with model: FoodSmallCardViewUIModel){
         
-        if let image = model.image {
-            imageView.image = UIImage(named: image)
+        if let imageUrl = model.image {
+            imageView.kf.setImage(with: URL(string: imageUrl))
         }
         
         labelTitle.text = model.title
@@ -90,10 +91,6 @@ class FoodSmallCardView: UIView {
     
     private func layout(){
         
-        self.snp.makeConstraints { (make) in
-            make.width.equalTo(150)
-        }
-        
         addSubview(stackViewContainer)
         stackViewContainer.snp.makeConstraints { (make) in
             make.top.equalToSuperview().offset(20)
@@ -103,9 +100,6 @@ class FoodSmallCardView: UIView {
         }
         
         stackViewContainer.addArrangedSubview(imageView)
-        imageView.snp.makeConstraints { (make) in
-            make.width.height.equalTo(52)
-        }
         
         stackViewContainer.addArrangedSubview(stackViewContainerRight)
         stackViewContainerRight.addArrangedSubview(labelTitle)

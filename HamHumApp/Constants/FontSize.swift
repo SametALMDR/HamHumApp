@@ -20,4 +20,6 @@ enum FontSize {
     static let h5: CGFloat = 12
     ///10
     static let h6: CGFloat = 10
+    ///18
+    static let f18: CGFloat = 18
 }
